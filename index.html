@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            background-color: #f1f1f1;
+        }
+
+        .registration-form {
+            width: 400px;
+            height: 400px;
+            background-color: #fff;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 #000;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input {
+            margin-top: 5px;
+            width: 300px;
+            height: 30px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+
+        input[type="submit"] {
+            margin-top: 10px;
+            width: 100px;
+            height: 40px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #validation-result {
+            color: red;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="registration-form">
+        <form method="post" name="register">
+            <div id="validation-result"></div>
+            <label for="fname">Full Name</label>
+            <input type="text" name="fname" id="fname">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" name="confirm-password" id="confirm-password">
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+    <script>
+
+        // We can use html5 validation to validate the form like Required,Minlength,Maxlength,Pattern etc.
+        // but in this assignement we are going to validate the form using javascript
+
+        let form = document.forms["register"];
+        let fname = form["fname"]; // or document.getElementById("fname"); [both are same]
+        let email = form["email"];
+        let password = form["password"];
+        let cpassword = form["confirm-password"];
+        let result = document.getElementById("validation-result");
+        function init() {
+            fname.style.borderColor = "black";
+            email.style.borderColor = "black";
+            password.style.borderColor = "black";
+            cpassword.style.borderColor = "black";
+            result.innerHTML = "";
+        }
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            init();
+            if (fname.value == "") {
+                result.innerHTML = "Please enter your Full Name";
+                fname.style.borderColor = "red";
+                return false;
+            } else if (email.value == "") {
+                result.innerHTML = "Please enter your Email";
+                email.style.borderColor = "red";
+                return false;
+            } else if (password.value == "") {
+                result.innerHTML = "Please enter your Password";
+                password.style.borderColor = "red";
+                return false;
+            } else if (cpassword.value == "") {
+                result.innerHTML = "Please enter your Confirm Password";
+                cpassword.style.borderColor = "red";
+                return false;
+            } else if (password.value != cpassword.value) {
+                result.innerHTML = "Password and Confirm Password must be same";
+                password.style.borderColor = "red";
+                cpassword.style.borderColor = "red";
+                return false;
+            } else {
+                result.innerHTML = "Form Submitted Successfully";
+                fname.style.borderColor = "green";
+                email.style.borderColor = "green";
+                password.style.borderColor = "green";
+                cpassword.style.borderColor = "green";
+                return true;
+            }
+
+
+        });
+
+        // let form = document.forms["register"]["fname"].value;
+    </script>
+</body>
+
+</html>
