@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -68,6 +68,8 @@
             <input type="text" name="fname" id="fname">
             <label for="email">Email</label>
             <input type="text" name="email" id="email">
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone">
             <label for="password">Password</label>
             <input type="password" name="password" id="password">
             <label for="confirm-password">Confirm Password</label>
@@ -85,6 +87,7 @@
         let form = document.forms["register"];
         let fname = form["fname"]; // or document.getElementById("fname"); [both are same]
         let email = form["email"];
+        let phone = form["phone"];
         let password = form["password"];
         let cpassword = form["confirm-password"];
         let result = document.getElementById("validation-result");
@@ -93,6 +96,7 @@
             email.style.borderColor = "black";
             password.style.borderColor = "black";
             cpassword.style.borderColor = "black";
+            phone.style.borderColor = "black";
             result.innerHTML = "";
         }
         form.addEventListener("submit", function (e) {
@@ -102,11 +106,56 @@
                 result.innerHTML = "Please enter your Full Name";
                 fname.style.borderColor = "red";
                 return false;
-            } else if (email.value == "") {
+            }
+            else {
+                let checkForMoreThanSplits = 0;
+                for (let i = 0; i < fname.value.length; i++) {
+                    if (fname.value[i] == ' ') {
+                        console.log(fname[i]);
+                        checkForMoreThanSplits++;
+                    } else if ((fname.value.charCodeAt(i) < 65) || (fname.value.charCodeAt(i) > 122)) {
+                        result.innerHTML = "The Full Name Must contain letters only";
+                        fname.style.borderColor = "red";
+                        return false;
+                    }
+                }
+                if (checkForMoreThanSplits == 0) {
+                    result.innerHTML = "Full Name must has 2 splits or more";
+                    fname.style.borderColor = "red";
+                    return false;
+                }
+            }
+
+            if (email.value == "") {
                 result.innerHTML = "Please enter your Email";
                 email.style.borderColor = "red";
                 return false;
-            } else if (password.value == "") {
+            } else {
+                if (!((email.value).includes('@')) || !((email.value).includes('.'))) {
+                    result.innerHTML = "Email dosn't contains @ or .";
+                    email.style.borderColor = "red";
+                    return false;
+                }
+            }
+            if (phone.value == "") {
+                result.innerHTML = "sry Phone number Was empty";
+                phone.style.borderColor = "red";
+                return false;
+            } else {
+                if (phone.value.length != 9) {
+                    result.innerHTML = "phone number must contain just 9 numbers";
+                    phone.style.borderColor = "red";
+                    return false;
+                }
+                for (let i = 0; i < phone.value.length; i++) {
+                    if (phone.value.charCodeAt(i) < 48 || phone.value.charCodeAt(i) > 57) {
+                        result.innerHTML = "password must contain only numbers ";
+                        phone.style.borderColor = "red";
+                        return false;
+                    }
+                }
+            }
+            if (password.value == "") {
                 result.innerHTML = "Please enter your Password";
                 password.style.borderColor = "red";
                 return false;
@@ -120,18 +169,42 @@
                 cpassword.style.borderColor = "red";
                 return false;
             } else {
-                result.innerHTML = "Form Submitted Successfully";
-                fname.style.borderColor = "green";
-                email.style.borderColor = "green";
-                password.style.borderColor = "green";
-                cpassword.style.borderColor = "green";
-                return true;
+                if ((password.value).length < 8) {
+                    result.innerHTML = "Password must be at least 8 charachter";
+                    password.style.borderColor = "red";
+                    cpassword.style.borderColor = "red";
+                    return false;
+                }
+                let checkForSymbols = 0;
+
+                for (let i = 0; i < password.value.length; i++) {
+                    if (password.value[i] == '@' || password.value[i] == '#' || password.value[i] == '!') {
+                        checkForSymbols++;
+                    }
+                }
+                if (checkForSymbols == 0) {
+                    result.innerHTML = "Password must be at least contains @,# or ! ";
+                    password.style.borderColor = "red";
+                    cpassword.style.borderColor = "red";
+                    return false;
+                }
             }
 
 
-        });
 
-        // let form = document.forms["register"]["fname"].value;
+
+            result.innerHTML = "Form Submitted Successfully";
+            result.style.color = "green";
+            fname.style.borderColor = "green";
+            email.style.borderColor = "green";
+            password.style.borderColor = "green";
+            cpassword.style.borderColor = "green";
+            phone.style.borderColor = "green";
+            form.submit();
+        }
+
+
+        );
     </script>
 </body>
 
